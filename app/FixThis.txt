@@ -1,0 +1,10 @@
+DONE = Wrong pw popup
+DONE = layout dashboard
+
+- Confirm pw
+
+- Extra tables
+
+- Weather API
+
+- Grade calculator
