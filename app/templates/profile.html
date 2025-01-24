@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Login</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="profile">Welcome to your dashboard: {{ username }}</div>
+        <div class="button-group">
+            <form action="/dashboard" method="GET">
+                <button type="submit" class="success">Dashboard</button>
+            </form>
+            <form action="/logout" method="GET">
+                <button type="submit" class="danger">Log Out</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -18,12 +18,14 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+
         #Get correct pw
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         cursor.execute('SELECT password, id FROM users WHERE username = ?', (username,))
         result = cursor.fetchone()
         conn.close()
+        
         #Validate credentials
         print(result)
         if result and result[0] == password:

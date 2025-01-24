@@ -34,16 +34,19 @@ def logout():
     session.clear()
     return redirect(url_for('loginSys.login'))
 
+@bp.route('/profile')
+def profile():
+    return render_template("profile.html", username=session["user"])
+
 @bp.route('/submit_climb', methods=['POST'])
 def submit_climb():
-    # Assuming you have a way to get the logged-in user's ID (e.g., from session)
-    user_id = get_user_id()  # This should return the logged-in user's ID
+    user_id = get_user_id()
 
     route_name = request.form['route_name']
-    grade = request.form['grade']  # This will now contain the selected grade (e.g., 'V1', 'V2', etc.)
+    grade = request.form['grade']
     location = request.form['location']
 
-    # Insert the data into the SQLite database
+    #Insert to database
     with sqlite3.connect(DATABASE) as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -52,7 +55,6 @@ def submit_climb():
         ''', (route_name, grade, location, user_id))
         conn.commit()
 
-    # Redirect or render the response
     return redirect(url_for('dashboard.dashboard'))
 
 @bp.route('/get_data')
@@ -74,11 +76,13 @@ def get_data():
     return {'grades': grades, 'dates': dates}
 
 def get_user_id():
-    # Fetch user_id directly from the session
-    user_id = session.get('user_id')  # Get the user_id from session
+    
+    user_id = session.get('user_id')  
 
+    #Redirect to login if issue is encountered
     if not user_id:
         flash("User not found or session expired.", "error")
-        return redirect(url_for('loginSys.home'))  # Redirect to login page if no user_id in session
+        return redirect(url_for('loginSys.home'))  
 
     return int(user_id)
+
