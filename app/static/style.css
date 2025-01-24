@@ -166,3 +166,24 @@ table.data-table tr:nth-child(odd) {
     padding: 5px 10px;
     font-size: 14px;
 }
+
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    height: 80vh;
+    width: 200vh;
+    margin: 0;
+}
+
+.profile-container .profile-container-inner {
+    flex: 1;
+    padding: 20px;
+    background-color: #3a3a3a;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

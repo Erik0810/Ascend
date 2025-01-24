@@ -36,7 +36,16 @@ def logout():
 
 @bp.route('/profile')
 def profile():
-    return render_template("profile.html", username=session["user"])
+    userID =get_user_id()
+    #Database for fetching user information
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT email FROM users WHERE id = ?
+    ''', (userID,))
+    user_info = cursor.fetchall()
+    conn.close()
+    return render_template("profile.html", username=session["user"], user_info=user_info)
 
 @bp.route('/submit_climb', methods=['POST'])
 def submit_climb():

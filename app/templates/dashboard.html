@@ -7,6 +7,33 @@
     <link rel="stylesheet" href="/static/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script>
+    function calculateGrade() {
+        const grade = parseFloat(document.getElementById('climb-grade').value);
+        const difficulty = document.getElementById('difficulty-level').value;
+        let output = "";
+    
+        if (!grade || grade <= 0) {
+            output = "Please enter a valid grade!";
+        } else {
+            switch(difficulty) {
+                case "easy":
+                    output = `Your grade is ${grade + 1}.`;
+                    break;
+                case "medium":
+                    output = `Your grade is ${grade + 2}.`;
+                    break;
+                case "hard":
+                    output = `Your grade is ${grade + 3}.`;
+                    break;
+                default:
+                    output = "Please select a difficulty level!";
+            }
+        }
+    
+        document.getElementById('output-grade').innerText = output;
+    }
+    </script>
     <style>
         /* New styles for the updated layout */
         .dashboard-grid {
@@ -189,7 +216,19 @@
         <!--Calculator-->
         <div class="dashboard-item" id="component3">
             <h2>Grade Calculator</h2>
-            <p>Details go here.</p>
+            <input type="number" id="climb-grade" placeholder="Enter a number" />
+            
+            <label for="difficulty-level">Select grading system:</label>
+            <select id="difficulty-level">
+                <option value="easy">Font-grades</option>
+                <option value="medium">V-grades</option>
+                <option value="hard">Colored-grades</option>
+            </select>
+            
+            <button onclick="calculateGrade()">Calculate</button>
+            
+            <h3>Calculated Grade:</h3>
+            <p id="output-grade">---</p>
         </div>
 
         <!--Weather api-->
