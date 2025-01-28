@@ -3,10 +3,10 @@ DONE = Layout dashboard
 DONE = Duplicate usernames
 DONE = Set up routes
 DONE = Favicon
+DONE = PW hash + salt
+DONE = Extra tables
 
 - Confirm pw
-
-- Extra tables
 
 - Weather API
 
@@ -17,7 +17,3 @@ DONE = Favicon
 - Design profile page
 
 - Clear wip tools
-
-- Hash/salt passwords
-
-- SQL Inject protection
