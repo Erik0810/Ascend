@@ -88,6 +88,23 @@ button.danger:hover {
     text-align: center;
 }
 
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+    padding: 80px 20px 20px; /* Offset for fixed navbar */
+    height: 100vh;
+    box-sizing: border-box;
+}
+.dashboard-item {
+    background-color: #3a3a3a;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
 /* Data Table */
 table.data-table {
     width: 100%;

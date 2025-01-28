@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, send_from_directory, url_for, flash, session
 import sqlite3
 from __init__ import DATABASE
 
@@ -7,6 +7,10 @@ bp = Blueprint('loginSys', __name__)
 @bp.route('/')
 def home():
     return render_template('index.html')
+
+@bp.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 #REMOVE LATER
 MOCK_USERS = {

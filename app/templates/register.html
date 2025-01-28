@@ -3,10 +3,12 @@
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>Register</title>
 </head>
 <body>
     <div class="login-box">
+        <!-- Username taken -->
         <h1>Register</h1>
         {% with messages = get_flashed_messages(with_categories=true) %}
          {% if messages %}

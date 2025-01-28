@@ -1,5 +1,8 @@
 DONE = Wrong pw popup
-DONE = layout dashboard
+DONE = Layout dashboard
+DONE = Duplicate usernames
+DONE = Set up routes
+DONE = Favicon
 
 - Confirm pw
 
@@ -8,3 +11,13 @@ DONE = layout dashboard
 - Weather API
 
 - Grade calculator
+
+- Design graph better
+
+- Design profile page
+
+- Clear wip tools
+
+- Hash/salt passwords
+
+- SQL Inject protection
