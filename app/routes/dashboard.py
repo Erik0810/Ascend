@@ -41,7 +41,7 @@ def profile():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT email FROM users WHERE id = ?
+        SELECT email, creation_date FROM users WHERE id = ?
     ''', (userID,))
     user_info = cursor.fetchall()
     conn.close()

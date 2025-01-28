@@ -50,6 +50,16 @@ def registerSuccess():
 
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
+
+    # Check if the username already exists
+    cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
+    existing_user = cursor.fetchone()
+
+    if existing_user:
+        conn.close()
+        flash('Username already taken. Please choose another one.', 'danger')
+        return redirect(url_for('loginSys.register'))
+    
     cursor.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', 
                    (username, email, password))
     conn.commit()

@@ -23,7 +23,8 @@ def create_app():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
             email TEXT NOT NULL,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            creation_date TEXT NOT NULL DEFAULT CURRENT_DATE
         )
     """)
     #Climbs table with user_id as a foreign key
