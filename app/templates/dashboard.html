@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bouldering Dashboard</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <script>
@@ -35,32 +36,16 @@
     }
     </script>
     <style>
-        /* New styles for the updated layout */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 20px;
-            padding: 80px 20px 20px; /* Offset for fixed navbar */
-            height: 100vh;
-            box-sizing: border-box;
-        }
-        .dashboard-item {
-            background-color: #3a3a3a;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
+        /* Dashboard specific styles */
         .dashboard-item table {
-            margin: 0 auto; /* Centers the table horizontally */
-            width: 80%; /* Optional: Adjust the width if necessary */
-            border-collapse: collapse; /* Optional: Makes the table look cleaner */
+            margin: 0 auto;
+            width: 80%;
+            border-collapse: collapse;
         }
 
         .dashboard-item th, .dashboard-item td {
-            padding: 10px; /* Optional: Adds padding inside table cells */
-            text-align: center; /* Centers text inside table cells */
+            padding: 10px;
+            text-align: center;
         }
 
         .chart-container {
@@ -86,7 +71,7 @@
 
     <!-- Dashboard Content -->
     <div class="dashboard-grid">
-        <div class="dashboard-item" id="component1">
+        <div class="dashboard-item" id="route_data">
             <h2>My climbs</h2>
             <form action="/submit_climb" method="POST">
                 
@@ -147,7 +132,7 @@
         </div>
 
         <!--Progress tracking chart-->
-        <div class="dashboard-item" id="component2">
+        <div class="dashboard-item" id="chart_display">
             <h2>Progress</h2>
             <div class="chart-container">
                 <canvas id="progressChart" width="400" height="200"></canvas>
@@ -214,7 +199,7 @@
         </div>
 
         <!--Calculator-->
-        <div class="dashboard-item" id="component3">
+        <div class="dashboard-item" id="calculator">
             <h2>Grade Calculator</h2>
             <input type="number" id="climb-grade" placeholder="Enter a number" />
             
@@ -232,7 +217,7 @@
         </div>
 
         <!--Weather api-->
-        <div class="dashboard-item" id="component4">
+        <div class="dashboard-item" id="api_container">
             <h2>Climbing Weather Alert</h2>
             <p>Details go here.</p>
         </div>

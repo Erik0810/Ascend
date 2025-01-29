@@ -14,6 +14,8 @@ def create_app():
     app.register_blueprint(loginRoutes_bp)
     from routes.dashboard import bp as dashboard_bp
     app.register_blueprint(dashboard_bp)
+    from routes.profile import bp as profile_bp
+    app.register_blueprint(profile_bp)
 
     #Database init, add separate tables for climbs etc
     conn = sqlite3.connect(DATABASE)
@@ -23,7 +25,8 @@ def create_app():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
             email TEXT NOT NULL,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            creation_date TEXT NOT NULL DEFAULT CURRENT_DATE
         )
     """)
     #Climbs table with user_id as a foreign key
@@ -40,4 +43,5 @@ def create_app():
     """)
     conn.commit()
     conn.close()
+    
     return app

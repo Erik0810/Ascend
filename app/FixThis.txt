@@ -1,10 +1,19 @@
 DONE = Wrong pw popup
-DONE = layout dashboard
+DONE = Layout dashboard
+DONE = Duplicate usernames
+DONE = Set up routes
+DONE = Favicon
+DONE = PW hash + salt
+DONE = Extra tables
 
 - Confirm pw
-
-- Extra tables
 
 - Weather API
 
 - Grade calculator
+
+- Design graph better
+
+- Design profile page
+
+- Clear wip tools

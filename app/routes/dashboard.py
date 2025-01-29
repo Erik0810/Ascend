@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 import sqlite3
 from __init__ import DATABASE
 from datetime import datetime
+from utils import get_user_id
 
 bp = Blueprint('dashboard', __name__)
 
@@ -34,19 +35,6 @@ def logout():
     session.clear()
     return redirect(url_for('loginSys.login'))
 
-@bp.route('/profile')
-def profile():
-    userID =get_user_id()
-    #Database for fetching user information
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-    cursor.execute('''
-        SELECT email FROM users WHERE id = ?
-    ''', (userID,))
-    user_info = cursor.fetchall()
-    conn.close()
-    return render_template("profile.html", username=session["user"], user_info=user_info)
-
 @bp.route('/submit_climb', methods=['POST'])
 def submit_climb():
     user_id = get_user_id()
@@ -68,7 +56,7 @@ def submit_climb():
 
 @bp.route('/get_data')
 def get_data():
-    #Database for chart
+    #Database request for chart data
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute('''
@@ -76,22 +64,16 @@ def get_data():
     ''', (get_user_id(),))
     chart_data = cursor.fetchall()
     conn.close()
+    
     grades=[]
     dates=[]
+
     for climb in chart_data:
         grade, date = climb
         grades.append(grade)
         dates.append(date)
+
     return {'grades': grades, 'dates': dates}
 
-def get_user_id():
-    
-    user_id = session.get('user_id')  
 
-    #Redirect to login if issue is encountered
-    if not user_id:
-        flash("User not found or session expired.", "error")
-        return redirect(url_for('loginSys.home'))  
-
-    return int(user_id)
 
