@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouldering Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script>
+    function calculateGrade() {
+        const grade = parseFloat(document.getElementById('climb-grade').value);
+        const difficulty = document.getElementById('difficulty-level').value;
+        let output = "";
+    
+        if (!grade || grade <= 0) {
+            output = "Please enter a valid grade!";
+        } else {
+            switch(difficulty) {
+                case "easy":
+                    output = `Your grade is ${grade + 1}.`;
+                    break;
+                case "medium":
+                    output = `Your grade is ${grade + 2}.`;
+                    break;
+                case "hard":
+                    output = `Your grade is ${grade + 3}.`;
+                    break;
+                default:
+                    output = "Please select a difficulty level!";
+            }
+        }
+    
+        document.getElementById('output-grade').innerText = output;
+    }
+    </script>
+    <style>
+        /* Dashboard specific styles */
+        .dashboard-item table {
+            margin: 0 auto;
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        .dashboard-item th, .dashboard-item td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="profile">Welcome to your dashboard: {{ username }}</div>
+        <div class="button-group">
+            <form action="/profile" method="GET">
+                <button type="submit" class="success">View Profile</button>
+            </form>
+            <form action="/logout" method="GET">
+                <button type="submit" class="danger">Log Out</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-grid">
+        <div class="dashboard-item" id="route_data">
+            <h2>My climbs</h2>
+            <form action="/submit_climb" method="POST">
+                
+                <input type="text" id="route_name" name="route_name" placeholder="Route name" required>
+
+                <input type="text" id="location" name="location" placeholder="Location" required>
+                
+                <label for="grade">Grade:</label>
+                <select id="grade" name="grade" required>
+                    <option value="V1">V1</option>
+                    <option value="V2">V2</option>
+                    <option value="V3">V3</option>
+                    <option value="V4">V4</option>
+                    <option value="V5">V5</option>
+                    <option value="V6">V6</option>
+                    <option value="V7">V7</option>
+                    <option value="V8">V8</option>
+                    <option value="V9">V9</option>
+                    <option value="V10">V10</option>
+                    <option value="V11">V11</option>
+                    <option value="V12">V12</option>
+                    <option value="V13">V13</option>
+                    <option value="V14">V14</option>
+                    <option value="V15">V15</option>
+                    <option value="V16">V16</option>
+                    <option value="V17">V17</option>
+                </select>
+                
+                <button type="submit">Submit new route</button>
+            </form>
+            <h2>Latest climbs</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Route Name</th>
+                        <th>Grade</th>
+                        <th>Location</th>
+                        <th>Date climbed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if climbs %}
+                        {% for climb in climbs %}
+                            <tr>
+                                <td>{{ climb[0] }}</td>
+                                <td>{{ climb[1] }}</td>
+                                <td>{{ climb[2] }}</td>
+                                <td>{{ climb[3] }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3">No climbs recorded yet.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!--Progress tracking chart-->
+        <div class="dashboard-item" id="chart_display">
+            <h2>Progress</h2>
+            <div class="chart-container">
+                <canvas id="progressChart" width="400" height="200"></canvas>
+            </div>
+            <script>
+                // Fetch data using AJAX
+                fetch('/get_data')
+                    .then(response => response.json())
+                    .then(data => {
+                        const myGrades = data.grades;
+                        const myDates = data.dates;
+
+                        const gradeMap = {
+                            'V1': 1, 'V2': 2, 'V3': 3, 'V4': 4, 'V5': 5,
+                            'V6': 6, 'V7': 7, 'V8': 8, 'V9': 9, 'V10': 10
+                        };
+
+                        const numericGrades = myGrades.map(grade => gradeMap[grade]);
+                        const formattedDates = myDates.map(date => new Date(date));
+
+                        const ctx = document.getElementById('progressChart').getContext('2d');
+                        const progressChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: formattedDates,
+                                datasets: [{
+                                    label: 'Bouldering Grades',
+                                    data: numericGrades,
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderWidth: 1,
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    x: {
+                                        type: 'time',
+                                        time: {
+                                            unit: 'day',
+                                            tooltipFormat: 'll'
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: 'Date'
+                                        }
+                                    },
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: 'Grade'
+                                        },
+                                        ticks: {
+                                            callback: function(value) {
+                                                return 'V' + value;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    });
+            </script>
+        </div>
+
+        <!--Calculator-->
+        <div class="dashboard-item" id="calculator">
+            <h2>Grade Calculator</h2>
+            <input type="number" id="climb-grade" placeholder="Enter a number" />
+            
+            <label for="difficulty-level">Select grading system:</label>
+            <select id="difficulty-level">
+                <option value="easy">Font-grades</option>
+                <option value="medium">V-grades</option>
+                <option value="hard">Colored-grades</option>
+            </select>
+            
+            <button onclick="calculateGrade()">Calculate</button>
+            
+            <h3>Calculated Grade:</h3>
+            <p id="output-grade">---</p>
+        </div>
+
+        <!--Weather api-->
+        <div class="dashboard-item" id="api_container">
+            <h2>Climbing Weather Alert</h2>
+            <p>Details go here.</p>
+        </div>
+    </div>
+
+</body>
+</html>
