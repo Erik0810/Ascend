@@ -33,5 +33,5 @@ To run locally, install dependencies and start the Flask server:
 git clone https://github.com/Erik0810/Ascend.git
 cd ascend
 pip install -r requirements.txt
-python app.py
+python run.py
 ```
